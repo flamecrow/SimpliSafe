@@ -43,7 +43,7 @@ preferences {
 		}
 	}
     section("Schedule"){
-    	input "setHome", "time", title: "Set to Home everday at this time"
+    	input "setHome", "time", title: "Set SimpliSafe to Home everday at this time.", required: false
     }
   }
 
@@ -60,7 +60,7 @@ def updated() {
 def init() {
   subscribe(alarmsystem, "alarm", alarmstate)
   subscribe(location, "alarmSystemStatus", shmaction)
-  schedule(setHome, setalarmhome)
+  schedule(setHome, autosetalarmhome)
   }
   
 def updatestate() {
@@ -179,6 +179,23 @@ def setalarmhome() {
   else {
 	 if (alarmHome) {  
      log.debug("SimpliSafe already set to '$state.alarmstate'")
+  }
+ }
+}
+
+def autosetalarmhome() {
+	updatestate()
+      log.debug("SimpliSafe Scheduler: '$state.alarmstate'")
+      if (!alarmHome && !alarmAway) {
+      def message = "Scheduler set SimpliSafe to Home"
+      log.info(message)
+      sendMessage(message)
+      //alarmsystem.home()
+  }
+  else {
+	 if (alarmHome || alarmAway) {  
+     log.debug("SimpliSafe already set to '$state.alarmstate'")
+     sendMessage("Scheduler: SimpliSafe already set to '$state.alarmstate'")
   }
  }
 }
