@@ -42,6 +42,9 @@ preferences {
 			input "pushAndPhone", "enum", title: "Both Push and SMS?", required: false, options: ["Yes", "No"]
 		}
 	}
+    section("Schedule"){
+    	input "setHome", "time", title: "Set to Home everday at this time"
+    }
   }
 
 def installed() {
@@ -57,6 +60,7 @@ def updated() {
 def init() {
   subscribe(alarmsystem, "alarm", alarmstate)
   subscribe(location, "alarmSystemStatus", shmaction)
+  schedule(setHome, setalarmhome)
   }
   
 def updatestate() {
