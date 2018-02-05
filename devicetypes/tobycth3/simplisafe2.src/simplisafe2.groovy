@@ -48,16 +48,9 @@ tiles(scale: 2) {
 	
     standardTile("off", "device.alarm", width: 2, height: 2, canChangeIcon: false, inactiveLabel: true, canChangeBackground: false) {
         state ("off", label:"off", action:"off", icon: "st.security.alarm.off", backgroundColor: "#594531", nextState: "pending")
-        state ("away", label:"off", action:"off", icon: "st.security.alarm.off", backgroundColor: "#505050", nextState: "pending")
         state ("home", label:"off", action:"off", icon: "st.security.alarm.off", backgroundColor: "#505050", nextState: "pending")
+        state ("away", label:"off", action:"off", icon: "st.security.alarm.off", backgroundColor: "#505050", nextState: "pending")
         state ("pending", label:"pending", icon: "st.security.alarm.off", backgroundColor: "#ffffff")
-	}
-	
-    standardTile("away", "device.alarm", width: 2, height: 2, canChangeIcon: false, inactiveLabel: true, canChangeBackground: false) {
-        state ("off", label:"away", action:"away", icon: "st.security.alarm.on", backgroundColor: "#505050", nextState: "pending") 
-		state ("away", label:"away", action:"away", icon: "st.security.alarm.on", backgroundColor: "#008CC1", nextState: "pending")
-        state ("home", label:"away", action:"away", icon: "st.security.alarm.on", backgroundColor: "#505050", nextState: "pending")
-		state ("pending", label:"pending", icon: "st.security.alarm.on", backgroundColor: "#ffffff")
 	}
 	
     standardTile("home", "device.alarm", width: 2, height: 2, canChangeIcon: false, inactiveLabel: true, canChangeBackground: false) {
@@ -66,12 +59,20 @@ tiles(scale: 2) {
 		state ("home", label:"home", action:"home", icon: "st.Home.home4", backgroundColor: "#00BEAC", nextState: "pending")
 		state ("pending", label:"pending", icon: "st.Home.home4", backgroundColor: "#ffffff")
 	}
+	
+    standardTile("away", "device.alarm", width: 2, height: 2, canChangeIcon: false, inactiveLabel: true, canChangeBackground: false) {
+        state ("off", label:"away", action:"away", icon: "st.security.alarm.on", backgroundColor: "#505050", nextState: "pending") 
+        state ("home", label:"away", action:"away", icon: "st.security.alarm.on", backgroundColor: "#505050", nextState: "pending")
+		state ("away", label:"away", action:"away", icon: "st.security.alarm.on", backgroundColor: "#008CC1", nextState: "pending")
+		state ("pending", label:"pending", icon: "st.security.alarm.on", backgroundColor: "#ffffff")
+	}
+    
 	standardTile("refresh", "device.alarm", inactiveLabel: false, decoration: "flat", width: 2, height: 2) {
 		state "default", action:"update_state", icon:"st.secondary.refresh"
 	}
 
 		main(["alarm"])
-		details(["alarm","off", "away", "home", "refresh"])
+		details(["alarm","off", "home", "away", "refresh"])
 	}
 }
 
