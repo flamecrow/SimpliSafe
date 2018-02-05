@@ -43,7 +43,7 @@ preferences {
 		}
 	}
     section("Schedule"){
-    	input "setHome", "time", title: "Set SimpliSafe to Home everday at this time.", required: false
+    	input "setHome", "time", title: "Set SimpliSafe to Home everday at this time", required: false
     }
   }
 
@@ -60,8 +60,10 @@ def updated() {
 def init() {
   subscribe(alarmsystem, "alarm", alarmstate)
   subscribe(location, "alarmSystemStatus", shmaction)
-  schedule(setHome, autosetalarmhome)
+  if(setHome != null){
+  	schedule(setHome, autosetalarmhome)
   }
+}
   
 def updatestate() {
 	log.info("Checking SimpliSafe and Smart Home Monitor state")
