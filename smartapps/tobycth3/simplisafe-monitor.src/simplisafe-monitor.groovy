@@ -189,10 +189,10 @@ def autosetalarmhome() {
 	updatestate()
       log.debug("SimpliSafe Scheduler: '$state.alarmstate'")
       if (!alarmHome && !alarmAway) {
-      def message = "Scheduler set SimpliSafe to Home"
+      def message = "Scheduler: Setting SimpliSafe to Home"
       log.info(message)
       sendMessage(message)
-      //alarmsystem.home()
+      alarmsystem.home()
   }
   else {
 	 if (alarmHome || alarmAway) {  
