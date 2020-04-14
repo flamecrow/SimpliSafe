@@ -75,7 +75,8 @@ def updatestate() {
 
 def shmaction(evt) {
 log.info "Smart Home Monitor: $evt.displayName - $evt.value"
-state.shmstate = evt.value
+state.shmstate = evt.value	
+state.shmstate = state.shmstate_raw.toLowerCase()
 
   if(shmOff && !alarmOff) {
     log.debug("Smart Home Monitor: '$state.shmstate', SimpliSafe: '$state.alarmstate'")
@@ -100,7 +101,8 @@ state.shmstate = evt.value
 
 def alarmstate(evt) {
 log.info "SimpliSafe Alarm: $evt.displayName - $evt.value"
-state.alarmstate = evt.value
+state.alarmstate = evt.value	
+state.shmstate = state.shmstate_raw.toLowerCase()
 
   if (alarmOff && !shmOff) {
     log.debug("SimpliSafe: '$state.alarmstate', Smart Home Monitor: '$state.shmstate'")
@@ -122,12 +124,12 @@ state.alarmstate = evt.value
  }
 }
   
-  if (evt.value in alarmon) {
+  if (state.alarmstate in alarmon) {
     log.debug("SimpliSafe state: $state.alarmstate")
      alarmstateon()
   }
  else {
-  if (evt.value in alarmoff) {
+  if (state.alarmstate in alarmoff) {
     log.debug("SimpliSafe state: $state.alarmstate")
      alarmstateoff()
   }
@@ -311,19 +313,26 @@ private getshmStay() {
   
 private sendMessage(msg) {
 	Map options = [:]
-	if (location.contactBookEnabled) {
-		sendNotificationToContacts(msg, recipients, options)
-	} else {
-		if (!phone || pushAndPhone != 'No') {
-			log.debug 'sending push'
-			options.method = 'push'
-			//sendPush(msg)
-		}
-		if (phone) {
-			options.phone = phone
-			log.debug 'sending SMS'
-			//sendSms(phone, msg)
-		}
-		sendNotification(msg, options)
+
+  if (location.contactBookEnabled && recipients) {	
+		sendNotificationToContacts(msg, recipients, options)	
+	} else {	
+    	if (phone) {	
+        	options.phone = phone	
+        if (sendPushMessage && sendPushMessage != 'No') {	
+          log.debug 'Sending push and SMS'	
+          options.method = 'both'	
+        } else {	
+          log.debug 'Sending SMS'	
+          options.method = 'phone'	
+			  }	
+      } else if (sendPushMessage && sendPushMessage != 'No') {	
+			log.debug 'Sending push'	
+			options.method = 'push'	
+		} else {	
+			log.debug 'Sending nothing'	
+			options.method = 'none'	
+		}	
+		sendNotification(msg, options)     
 	}
 }
