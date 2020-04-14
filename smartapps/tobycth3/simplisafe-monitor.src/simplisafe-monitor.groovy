@@ -1,12 +1,13 @@
 /**
  *  SimpliSafe Monitor
  *
- *  Author: toby@cth3.com
- *  Date: 4/5/16
- *
- *  Monitors and controlls the state of a SimpliSafe alarm system, syncs with Smart Home Monitor and can turn on/off switchs based on SimpliSafe state.
- *  Works in conjunction with SimpliSafe Alarm Integration device type.
+ *  Author: flamecrow@gmail.com
+ *  Date: 4/13/2020	
+ *	
+ *  Monitors and controls the state of a SimpliSafe alarm system, syncs with Smart Home Monitor and
+ *  can turn on/off switches based on SimpliSafe state.
  */
+
 
 
 // Automatically generated. Make future change here.
